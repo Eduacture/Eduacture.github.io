@@ -1,3 +1,71 @@
+<?php
+    $msg = "";
+    require("../Educature/PHPMailer/PHPMailer.php");
+   
+    require("../Educature/PHPMailer/SMTP.php");
+    require("../Educature/PHPMailer/Exception.php");
+
+    require("../Educature/PHPMailer/OAuth.php");
+   
+    require("../Educature/PHPMailer/POP3.php");
+
+	if (isset($_POST['submit'])) {
+
+        $con = mysqli_connect("localhost","root","","educature");
+        if (mysqli_connect_errno()){
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+            die();
+            }
+
+        $username = $con->real_escape_string($_POST['username']);
+        $firstname = $con->real_escape_string($_POST['firstname']);
+        $lastname = $con->real_escape_string($_POST['lastname']);
+        $email = $con->real_escape_string($_POST['email']);
+		$password = $con->real_escape_string($_POST['password']);
+		$cPassword = $con->real_escape_string($_POST['confirmpassword']);
+
+		if ($firstname == "" || $lastname == "" || $username == "" || $email == "" || $password != $cPassword)
+			$msg = "Please check your inputs!";
+		else {
+			$sql = $con->query("SELECT id FROM users WHERE email='$email'");
+			if ($sql->num_rows > 0) {
+				$msg = "Email already exists in the database!";
+			} else {
+				$token = 'qwertzuiopasdfghjklyxcvbnmQWERTZUIOPASDFGHJKLYXCVBNM0123456789!$/()*';
+				$token = str_shuffle($token);
+                $token = substr($token, 0, 10);
+                
+                $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+				
+
+				$con->query("INSERT INTO users (username,firstname,lastname,email,password,isemailconfirmed,token)
+					VALUES ('$username', '$firstname', '$lastname', '$email', '$hashedPassword','0','$token');
+				");
+
+             
+
+                $mail = new PHPMailer\PHPMailer\PHPMailer();
+                $mail->IsSMTP(); // enable SMTP
+                $mail->setFrom('info.educature@gmail.com');
+                $mail->addAddress($email, $username);
+                $mail->Subject = "Please verify email!";
+                $mail->isHTML(true);
+                $mail->Body = "
+                    Please click on the link below:<br><br>
+                    
+                    <a href='http://localhost:8080/Educature/resetpassword.php?email=$email&token=$token'>Click Here</a>
+                ";
+
+                if ($mail->send())
+                    $msg = "You have been registered! Please verify your email!";
+                else
+                    $msg = "try login now";
+			}
+		}
+	}
+?>
+
+
 <!doctype html>
 
 <html class="no-js" lang="en-US">
@@ -34,6 +102,11 @@
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/responsive.css">
 
+
+
+    <script src="assets/js/jquery-3.3.1.min.js"></script>
+    <script src="assets/js/plugins.js"></script>
+    <script src="assets/js/main.js"></script>
 
 </head>
 
@@ -305,39 +378,39 @@
                 <div class="contents text-center">
 
                     <h2 class="section-title">Register</h2>
+                    <?php if ($msg != "") echo $msg . "<br><br>" ?>
 
-                    <form class="register-form" id="register-form" action="#" method="post">
+                    <form class="register-form" id="register-form" action="register.php" method="post">
                         <p class="form-input">
-                            <input type="text" name="log" id="user_name" class="input " value="" placeholder="Username" required="">
+                            <input type="text" name="username" id="user_username" class="input " value="" placeholder="Username" required="">
                         </p>
                         <p class="form-input">
-                            <input type="text" name="log" id="user_name" class="input" value="" placeholder="Firstname" required="">
+                            <input type="text" name="firstname" id="user_firstname" class="input" value="" placeholder="Firstname" required="">
                         </p>
                         <p class="form-input">
-                            <input type="text" name="log" id="user_name" class="input" value="" placeholder="Lastname" required="">
+                            <input type="text" name="lastname" id="user_lastname" class="input" value="" placeholder="Lastname" required="">
                         </p>
                         <p class="form-input">
                             <input type="email" name="email" id="user_email" class="input" value="" placeholder="Email" required="">
                         </p>
 
                         <p class="form-input">
-                            <input type="password" name="pwd" id="user_pass" class="input" value="" placeholder="Password" required="">
+                            <input type="password" name="password" id="user_password" class="input" value="" placeholder="Password" required="">
                         </p>
 
                         <p class="form-input">
-                            <input type="password" name="pwd" id="confirm_pass" class="input" value="" placeholder="Confirm Password" required="">
+                            <input type="password" name="confirmpassword" id="user_confirmpassword" class="input" value="" placeholder="Confirm Password" required="">
                         </p>
 
 
-                        <p class="checkbox">
+                        <!-- <p class="checkbox">
                             <select class="rememberme form-control">
                                 <option value="">-- Select Role --</option>
                                 <option value="male">Male</option>
                                 <option value="female">Female</option>
                                 <option value="others">Others</option>
                             </select>
-                            <!-- <input name="rememberme" type="checkbox" class="rememberme float-left" value="Remember Me"> By clicking I agree to the
-                            <a href="#" class="" title="Recover Your Lost Password">Terms & Conditions</a> -->
+                            
                         </p>
 
                         <p class="checkbox">
@@ -348,12 +421,12 @@
                                 <option value="female">Female</option>
                                 <option value="others">Others</option>
                             </select>
-                            <!-- <input name="rememberme" type="checkbox" class="rememberme float-left" value="Remember Me"> By clicking I agree to the
-                                <a href="#" class="" title="Recover Your Lost Password">Terms & Conditions</a> -->
-                        </p>
+                          
+                        </p> -->
 
                         <p class="form-input">
-                            <input type="submit" name="wp-submit" id="wp-submit" class="btn" value="Sign Up">
+                          
+                            <input type="submit" name="submit" id="submit"  value="Register" class="btn">
                         </p>
 
                     </form>
@@ -487,11 +560,6 @@
     <!-- /.site-footer -->
 
 
-
-
-    <script src="assets/js/jquery-3.3.1.min.js"></script>
-    <script src="assets/js/plugins.js"></script>
-    <script src="assets/js/main.js"></script>
 
 
 

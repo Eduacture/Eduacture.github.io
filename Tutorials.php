@@ -437,7 +437,7 @@ $(document).ready( function() {
 									
 
 
-   	<p class="form-input">
+   	<div class="form-input">
         <label>Upload Course Image</label>
         <div class="input-group">
             <span class="input-group-btn">
@@ -449,7 +449,7 @@ $(document).ready( function() {
         </div>
         <img id='img-upload'/>
     
-	  </p>
+	  </div>
 
                             <!-- <input name="rememberme" type="checkbox" class="rememberme float-left" value="Remember Me"> By clicking I agree to the
                             <a href="#" class="" title="Recover Your Lost Password">Terms & Conditions</a> -->
@@ -510,6 +510,7 @@ $(document).ready( function() {
                     </p>
                 </div>
                 <!-- /.contents -->
+            </div>
             </div>
             <!-- /.container -->
         </div>

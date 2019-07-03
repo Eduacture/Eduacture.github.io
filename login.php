@@ -1,3 +1,39 @@
+<?php
+    $msg = "";
+    $loggedIn ="false";
+	if (isset($_POST['submit'])) {
+	
+        $con = mysqli_connect("localhost","root","","educature");
+        if (mysqli_connect_errno()){
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+            die();
+            }
+		$email = $con->real_escape_string($_POST['email']);
+		$password = $con->real_escape_string($_POST['password']);
+
+		if ($email == "" || $password == "")
+			$msg = "Please check your blank inputs!";
+		else {
+			$sql = $con->query("SELECT id, email, password, isemailconfirmed FROM users WHERE email='$email'");
+			if ($sql->num_rows > 0) {
+                $data = $sql->fetch_array();
+                if (password_verify($password, $data['password'])) {
+                    if ($data['isemailconfirmed'] == 0)
+	                    $msg = "Please verify your email!";
+                    else {
+                        $msg = "You have been logged in";
+                        header('Location: index.php');
+                        $loggedIn ="true";
+                    }
+                } else
+	                $msg = "Please check your inputs11111!";
+			} else {
+				$msg = "Please check your inputs!";
+			}
+		}
+	}
+?>
+
 <!doctype html>
 
 <html class="no-js" lang="en-US">
@@ -33,6 +69,12 @@
 
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/responsive.css">
+
+    
+
+    <script src="assets/js/jquery-3.3.1.min.js"></script>
+    <script src="assets/js/plugins.js"></script>
+    <script src="assets/js/main.js"></script>
 
 
 </head>
@@ -141,8 +183,9 @@
                                 <a class="nav-link" href="profile.php"><i class="fa fa- user"></i>My Profile</a>
 
                                 <a class="nav-link" href="mycourses.php"><i class="fa fa -cog"></i>My Courses</a>
-
+                               
                                 <a class="nav-link" href="login.php"><i class="fa fa-power -off"></i>Logout</a>
+                            
                             </div>
                         </div>
                     </div>
@@ -305,14 +348,14 @@
                 <div class="contents text-center">
 
                     <h2 class="section-title">Log in to your account</h2>
-
-                    <form class="sign-in-form" id="sign-in-form" action="#" method="post">
+                    <?php if ($msg != "") echo $msg . "<br><br>" ?>
+                    <form class="sign-in-form" id="sign-in-form" action="login.php" method="post">
                         <p class="form-input">
-                            <input type="text" name="log" id="user_login" class="input" value="" placeholder="Username / Email" required="">
+                            <input type="text" name="email" id="user_login" class="input" value="" placeholder="Username / Email" required="">
                         </p>
 
                         <p class="form-input">
-                            <input type="password" name="pwd" id="user_pass" class="input" value="" placeholder="Password" required="">
+                            <input type="password" name="password" id="user_pass" class="input" value="" placeholder="Password" required="">
                         </p>
 
                         <p class="checkbox">
@@ -321,7 +364,7 @@
                         </p>
 
                         <p class="form-input">
-                            <input type="submit" name="wp-submit" id="wp-submit" class="btn" value="Sign In">
+                            <input type="submit" name="submit" id="submit" class="btn" value="Sign In">
                         </p>
 
                     </form>
@@ -456,11 +499,6 @@
 
 
 
-
-
-    <script src="assets/js/jquery-3.3.1.min.js"></script>
-    <script src="assets/js/plugins.js"></script>
-    <script src="assets/js/main.js"></script>
 
 
 
