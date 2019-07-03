@@ -5,14 +5,14 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Educature-Registration</title>
+    <title>Educature-Create a Course</title>
     <meta name="description" content="CourseWare - HTML5 Template By Jewel Theme">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- favicon -->
-    <link rel="icon" href="images/favicon.png" sizes="32x32">
-    <link rel="icon" href="images/favicon-300x300.png" sizes="192x192">
-    <link rel="apple-touch-icon-precomposed" href="images/favicon-300x300.png">
+   <!-- favicon -->
+   <link rel="icon" href="images/favicon1.png" sizes="32x32">
+    <link rel="icon" href="images/favicon2.png" sizes="192x192">
+    <link rel="apple-touch-icon-precomposed" href="images/favicon2.png">
 
     <!-- Import Template Icons CSS Files -->
 
