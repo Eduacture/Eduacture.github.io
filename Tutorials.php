@@ -5,14 +5,14 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Educature-Profile</title>
+    <title>Educature-Registration</title>
     <meta name="description" content="CourseWare - HTML5 Template By Jewel Theme">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- favicon -->
-    <link rel="icon" href="images/favicon1.png" sizes="32x32">
-    <link rel="icon" href="images/favicon2.png" sizes="192x192">
-    <link rel="apple-touch-icon-precomposed" href="images/favicon2.png">
+    <link rel="icon" href="images/favicon.png" sizes="32x32">
+    <link rel="icon" href="images/favicon-300x300.png" sizes="192x192">
+    <link rel="apple-touch-icon-precomposed" href="images/favicon-300x300.png">
 
     <!-- Import Template Icons CSS Files -->
 
@@ -27,65 +27,87 @@
 
     <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
     <link rel="stylesheet" href="assets/css/magnific-popup.css">
+    <link rel="stylesheet" href="assets/css/selectric.css">
 
     <!-- Import Template's CSS Files -->
 
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/responsive.css">
-
+	
+	
     <script src="assets/js/jquery-3.3.1.min.js"></script>
     <script src="assets/js/plugins.js"></script>
     <script src="assets/js/main.js"></script>
 
-    <script>
-        function enableButtons() {
-
-            var elems = document.getElementsByClassName("userinfo")
-            for (var i = 0; i < elems.length; i++) {
-                elems[i].disabled = false;
-            }
-        }
-
-        function disableButtons() {
-            var elems = document.getElementsByClassName("userinfo")
-            for (var i = 0; i < elems.length; i++) {
-                elems[i].disabled = true;
-            }
-        }
-        $(document).ready(function() {
 
 
+<style>
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+   
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
 
+#img-upload{
+    width: 100%;
+}
+</style>
 
-            var readURL = function(input) {
-                if (input.files && input.files[0]) {
-                    var reader = new FileReader();
+<script>
+$(document).ready( function() {
+    	$(document).on('change', '.btn-file :file', function() {
+		var input = $(this),
+			label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+		input.trigger('fileselect', [label]);
+		});
 
-                    reader.onload = function(e) {
-                        $('.profile-pic').attr('src', e.target.result);
-                    }
+		$('.btn-file :file').on('fileselect', function(event, label) {
+		    
+		    var input = $(this).parents('.input-group').find(':text'),
+		        log = label;
+		    
+		    if( input.length ) {
+		        input.val(log);
+		    } else {
+		        if( log ) alert(log);
+		    }
+	    
+		});
+		function readURL(input) {
+		    if (input.files && input.files[0]) {
+		        var reader = new FileReader();
+		        
+		        reader.onload = function (e) {
+		            $('#img-upload').attr('src', e.target.result);
+		        }
+		        
+		        reader.readAsDataURL(input.files[0]);
+		    }
+		}
 
-                    reader.readAsDataURL(input.files[0]);
-                }
-            }
-
-
-            $(".file-upload").on('change', function() {
-                readURL(this);
-            });
-
-            $(".upload-button").on('click', function() {
-                $(".file-upload").click();
-            });
-        });
-
-    </script>
+		$("#imgInp").change(function(){
+		    readURL(this);
+		}); 	
+	});
+	</script>
 </head>
 
 
 <body>
-
-
     <header class="masthead">
         <div class="header-top">
             <div class="container">
@@ -196,8 +218,7 @@
             </div>
         </div>
         <!-- /.header-top -->
-
-        <div class="header-bottom">
+ <div class="header-bottom">
             <div class="container">
                 <nav class="navbar navbar-expand-md m-0">
                     <a class="navbar-brand" href="index.php"><img src="images/Untitled-1.png" alt="Logo"></a>
@@ -206,7 +227,7 @@
                     </button>
                     <div class="collapse navbar-collapse" id="main-menu">
                         <ul class="navbar-nav">
-                            <li class="nav-item menu-item-has-children dropdown ">
+                            <li class="nav-item menu-item-has-children dropdown">
                                 <a class="dropdown-item" href="index.php">Home</a>
                                 <!-- <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Home</a>
                                 <div class="dropdown-menu">
@@ -279,8 +300,8 @@
                             <li class="nav-item menu-item-has-children dropdown">
                                 <div class="menu-cart dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Account <i class="fas fa-user"></i>
-                                    </a>
+                                                Account <i class="fas fa-user"></i>
+                                            </a>
                                     <div class="dropdown-menu cart-menu">
                                         <div class="widget_shopping_cart_content">
 
@@ -317,7 +338,6 @@
             </div>
             <!-- /.container -->
         </div>
-
         <!-- /.header-bottom -->
     </header>
     <!-- /.masthead -->
@@ -328,11 +348,11 @@
         <div class="overlay">
             <div class="section-padding">
                 <div class="container">
-                    <h2 class="section-title">Public Profile</h2>
+                    <h2 class="section-title">Create a Course</h2>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Profile</li>
+                            <li class="breadcrumb-item active" aria-current="page">Create a Course</li>
                         </ol>
                     </nav>
                 </div>
@@ -348,137 +368,162 @@
 
 
 
-
-    <section class="courses ">
-        <div class="section-profile-padding">
+    <section class="login-register">
+        <div class="section-padding">
             <div class="container">
-                <div class="row">
-                    <div class="col-md-8">
-                        <div class="top-content">
-                            <div class="float-left left-content">
-                                <h2 class="section-title">Profile</h2>
-                                <input type="button" id="editbtn" class="btn save text-center" value="Edit profile" onclick="enableButtons()">
-                                <hr>
-                            </div>
+                <div class="contents text-center">
 
-                            <!-- /.left-content -->
-                        </div>
+                    <h2 class="section-title">Create a Course</h2>
 
-                        <h3 class="profile">Personal info</h3>
-
-                        <form class="form-horizontal" role="form">
-                            <div class="form-group">
-                                <label class="col-md-3 control-label" style="color:#90a4ae">Username</label>
-                                <div class="col-md-8">
-                                    <input class="form-control userinfo" disabled="disabled" type="text" value="janeuser">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-lg-3 control-label" style="color:#90a4ae">First name</label>
-                                <div class="col-lg-8">
-                                    <input class="form-control userinfo" disabled="disabled" type="text" value="Jane">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-lg-3 control-label" style="color:#90a4ae">Last name</label>
-                                <div class="col-lg-8">
-                                    <input class="form-control userinfo" disabled="disabled" type="text" value="Bishop">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-lg-3 control-label" style="color:#90a4ae">Designation</label>
-                                <div class="col-lg-8">
-                                    <input class="form-control userinfo" disabled="disabled" type="text" value="">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-lg-3 control-label" style="color:#90a4ae">Email</label>
-                                <div class="col-lg-8">
-                                    <input class="form-control userinfo" disabled="disabled" type="text" value="janesemail@gmail.com">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-lg-3 control-label" style="color:#90a4ae">Description</label>
-                                <div class="col-lg-8">
-                                    <textarea class="form-control userinfo" disabled="disabled" rows="3"></textarea>
-                                </div>
-                            </div>
-                            <h3 class="profile">Web links</h3>
-                            <div class="form-group">
-                                <label class="col-lg-3 control-label" style="color:#90a4ae">Facebook</label>
-                                <div class="col-lg-8">
-                                    <input class="form-control userinfo" disabled="disabled" type="text" value="facebook.com">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-lg-3 control-label" style="color:#90a4ae">Linkedin</label>
-                                <div class="col-lg-8">
-                                    <input class="form-control userinfo" disabled="disabled" type="text" value="linkedin.com">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-lg-3 control-label" style="color:#90a4ae">github</label>
-                                <div class="col-lg-8">
-                                    <input class="form-control userinfo" disabled="disabled" type="text" value="github.com">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-md-3 control-label"></label>
-                                <div class="col-md-8">
-                                    <input type="button" class="btn save userinfo" disabled="disabled" value="Save Changes">
-                                    <span></span>
-                                    <input type="reset" class="btn save userinfo" disabled="disabled" id="disablebtn" onclick="disableButtons()" value="Cancel">
-                                </div>
-                            </div>
-                        </form>
+                    <form class="register-form" id="register-form" action="#" method="post">
+                        <p class="form-input">
+                            <input type="text" name="log" id="user_name" class="input " value="" placeholder="Course Title" required="">
+                        </p>
+						
+						<p class="form-input">
+					
+                           <textarea class=" form-control input"  columns="10" placeholder="Description" required=""></textarea>
+                        </p>
+						
+						
+						
+						
+                        <p class="checkbox">
+                                <select class="rememberme form-control">
+                                        <option value="">-- Course Type --</option>
+                                        <option value="male">Paid</option>
+                                        <option value="female">Free</option>
+                                      
+                                    </select>
+                            <!-- <input name="rememberme" type="checkbox" class="rememberme float-left" value="Remember Me"> By clicking I agree to the
+                            <a href="#" class="" title="Recover Your Lost Password">Terms & Conditions</a> -->
+                        </p>
+						
+						<p class="form-input">
+						
+                            <input type="text" name="log" id="user_name" class="input " value="" placeholder="If Paid Enter The Amount"  required="">
+                        </p>
+						
+						<p class="checkbox">
+                                <select class="rememberme form-control">
+                                        <option value="">-- Category --</option>
+                                        <option value="male">IT</option>
+                                        <option value="female">Business</option>
+                                        <option value="others">Web Development</option>
+                                    </select>
+                            <!-- <input name="rememberme" type="checkbox" class="rememberme float-left" value="Remember Me"> By clicking I agree to the
+                            <a href="#" class="" title="Recover Your Lost Password">Terms & Conditions</a> -->
+                        </p>
+                        
+						
+						
+                        <p class="form-input">
+                                <input type="text" name="log" id="user_name" class="input" value="" placeholder="InstructorFirstname" required="">
+                            </p>
+                            <p class="form-input">
+                                    <input type="text" name="log" id="user_name" class="input" value="" placeholder="InstructorLastname" required="">
+                                </p>
+								
+								<p class="checkbox">
+                                <select class="rememberme form-control">
+                                        <option value="">-- Designation --</option>
+                                        <option value="male">IT</option>
+                                        <option value="female">Business</option>
+                                        <option value="others">Web Development</option>
+                                    </select>
+									
+									</p>
+									
+									
 
 
-                    </div>
+   	<p class="form-input">
+        <label>Upload Course Image</label>
+        <div class="input-group">
+            <span class="input-group-btn">
+                <span class="btn btn-default btn-file">
+                    Browse… <input type="file" id="imgInp">
+                </span>
+            </span>
+            <input type="text" class="form-control" readonly style ="margin-top:20px">
+        </div>
+        <img id='img-upload'/>
+    
+	  </p>
 
+                            <!-- <input name="rememberme" type="checkbox" class="rememberme float-left" value="Remember Me"> By clicking I agree to the
+                            <a href="#" class="" title="Recover Your Lost Password">Terms & Conditions</a> -->
+                    
+						
+                        <!-- <p class="form-input">
+                            <input type="email"  name="email" id="user_email" class="input" value="" placeholder="Email" required="">
+                        </p>
 
-                    <div class="col-md-2">
-                        <aside class="sidebar">
-                            <div class="text-center">
-                                <div class="row">
-                                    <div class="small-12 medium-2 large-2 columns">
-                                        <div class="circle">
-                                            <!-- User Profile Image -->
-                                            <img class="profile-pic" src="http://cdn.cutestpaw.com/wp-content/uploads/2012/07/l-Wittle-puppy-yawning.jpg">
+                        <p class="form-input">
+                            <input type="password" name="pwd" id="user_pass" class="input" value="" placeholder="Password" required="">
+                        </p>
 
-                                            <!-- Default Image -->
-                                            <!-- <i class="fa fa-user fa-5x"></i> -->
-                                        </div>
+                        <p class="form-input">
+                            <input type="password" name="pwd" id="confirm_pass" class="input" value="" placeholder="Confirm Password" required="">
+                        </p> -->
+                   
 
-                                        <div class="p-image">
-                                            <i class="fas fa-camera upload-button"></i>
-                                            <input class="file-upload userinfo" disabled="disabled" type="file" accept="image/*" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </aside>
-                        <!-- /.sidebar -->
-                    </div>
+                        <!-- <p class="checkbox">
+                                <select class="rememberme form-control">
+                                        <option value="">-- Select Role --</option>
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                        <option value="others">Others</option>
+                                    </select>
+                            <!-- <input name="rememberme" type="checkbox" class="rememberme float-left" value="Remember Me"> By clicking I agree to the
+                            <a href="#" class="" title="Recover Your Lost Password">Terms & Conditions</a> -->
+                          <!--  </p> -->
+                        
+                         <!--   <p class="checkbox">
+
+                                <select class="rememberme form-control">
+                                    <option value="">-- Select Gender--</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="others">Others</option>
+                                </select>
+                                <!-- <input name="rememberme" type="checkbox" class="rememberme float-left" value="Remember Me"> By clicking I agree to the
+                                <a href="#" class="" title="Recover Your Lost Password">Terms & Conditions</a> -->
+                             <!--   </p> -->
+
+                        <p class="form-input">
+                            <input type="submit" name="wp-submit" id="wp-submit" class="btn" value="Publish">
+                        </p>
+
+                    </form>
+
+                    <!-- <div class="login-social">
+                        <h2 class="section-title">Or Sign up using</h2>
+                        <button class="btn facebook"><i class="fab fa-facebook"></i> Facebook</button>
+                        <button class="btn twitter"><i class="fab fa-twitter"></i> Twitter</button>
+                        <button class="btn google"><i class="fab fa-google-plus"></i> Google</button>
+                    </div> -->
+                    <!-- /.login-social -->
+
+                  <!--   <p class="register">
+                        Already have an account? <a href="login.php">Sign in now</a>
+                    </p>
                 </div>
-                <!-- /.row -->
+                <!-- /.contents -->
             </div>
             <!-- /.container -->
         </div>
         <!-- /.section-padding -->
     </section>
-    <!-- /.courses -->
-
+    <!-- /.login-register -->
 
 
 
 
     <footer class="site-footer">
-
         <div class="footer-top light-black">
             <div class="section-padding">
                 <div class="container">
-
                     <div class="row">
                         <div class="col-lg-4 col-md-6">
                             <div class="widget widget_about_us">
@@ -539,7 +584,7 @@
                                         <li class="menu-item"><a href="#"><i class="fa fa-angle-double-right"></i> Career</a></li>
                                         <li class="menu-item"><a href="#"><i class="fa fa-angle-double-right"></i> Community</a></li>
                                         <li class="menu-item"><a href="#"><i class="fa fa-angle-double-right"></i> Management</a></li> -->
-                                    <!--                                    </ul> -->-->
+<!--                                    </ul> -->-->
                                 </div>
                                 <!-- /.widget-details -->
                             </div>
@@ -560,7 +605,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="copy-right text-center">
-                                <span> Copyright © 2019 <a href="#" target="_blank" rel="nofollow">Educature</a>, All rights reservsed </span>
+                                <span> Copyright © 2019 <a href="#" target="_blank" rel="nofollow">Educature</a>, All rights reservsed  </span>
                             </div>
                             <!-- /.copy-right -->
                         </div>
@@ -575,13 +620,11 @@
             <!-- /.container -->
         </div>
         <!-- /.section-padding -->
-        <!--        </div>-->
+<!--        </div>-->
         <!-- /.footer-bottom -->
     </footer>
     <!-- /.site-footer -->
-
-
-
+    
 
 
 
